@@ -1,5 +1,5 @@
 name: aoc2021
-version: "0.1.1"
+version: "0.2.0"
 about: Advent of Code 2021
 author: "@Chronium <chronium@users.noreply.github.com>"
 
@@ -10,7 +10,7 @@ args:
       long: day
       value_name: NUMBER
       takes_value: true
-      possible_values: ["1"]
+      possible_values: ["1", "2"]
       required: true
   - second:
       help: AoC second part
