@@ -139,19 +139,43 @@ pub fn parse(input: &[&str]) -> Vec<Move> {
 }
 
 pub fn execute_first(input: Vec<Move>) -> i32 {
-    let mut position = (0, 0);
-    input
-        .iter()
-        .for_each(|m| position = m.apply_first(&position));
-
-    position.0 * position.1
+    CoordsOps(input.iter().fold(CoordsOps::zero(), |position, mov| {
+        mov.apply_first(&position)
+    }))
+    .mul()
 }
 
 pub fn execute_second(input: Vec<Move>) -> i32 {
-    let mut position = ((0, 0), 0);
-    input
-        .iter()
-        .for_each(|m| position = m.apply_second(&position));
+    CoordsAimOps(
+        input
+            .iter()
+            .fold(CoordsAimOps::zero(), |position_aim, mov| {
+                mov.apply_second(&position_aim)
+            }),
+    )
+    .mul()
+}
 
-    position.0 .0 * position.0 .1
+pub struct CoordsOps(Coords);
+
+impl CoordsOps {
+    fn mul(&self) -> i32 {
+        self.0 .0 * self.0 .1
+    }
+
+    fn zero() -> Coords {
+        (0, 0)
+    }
+}
+
+pub struct CoordsAimOps(CoordsAim);
+
+impl CoordsAimOps {
+    fn mul(&self) -> i32 {
+        self.0 .0 .0 * self.0 .0 .1
+    }
+
+    fn zero() -> CoordsAim {
+        ((0, 0), 0)
+    }
 }
