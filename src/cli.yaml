@@ -1,0 +1,21 @@
+name: aoc2021
+version: "0.1.1"
+about: Advent of Code 2021
+author: "@Chronium <chronium@users.noreply.github.com>"
+
+args:
+  - day:
+      help: AoC day
+      short: d
+      long: day
+      value_name: NUMBER
+      takes_value: true
+      possible_values: ["1"]
+      required: true
+  - second:
+      help: AoC second part
+      short: s
+  - INPUT:
+      help: Sets the input file to use
+      required: true
+      index: 1
