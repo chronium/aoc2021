@@ -42,12 +42,11 @@ fn main() -> Result<()> {
                     _ => None,
                 })
                 .collect::<Vec<_>>();
+            let moves = day2::parse(&input);
 
             let result = if matches.is_present("second") {
-                unimplemented!()
+                day2::execute_second(moves)
             } else {
-                let moves = day2::parse_first(&input);
-
                 day2::execute_first(moves)
             };
 
