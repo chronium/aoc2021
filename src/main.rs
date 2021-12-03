@@ -62,7 +62,7 @@ fn main() -> Result<()> {
                 .collect::<Vec<_>>();
 
             let result = if matches.is_present("second") {
-                unimplemented!()
+                day3::execute_second::<12>(&input)
             } else {
                 day3::execute_first::<12>(&input)
             };
