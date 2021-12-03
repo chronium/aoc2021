@@ -52,6 +52,23 @@ fn main() -> Result<()> {
 
             println!("Result: {}", result);
         }
+        3 => {
+            let input = buf
+                .split("\n")
+                .filter_map(|s| match s.trim() {
+                    s if s.len() > 0 => Some(s),
+                    _ => None,
+                })
+                .collect::<Vec<_>>();
+
+            let result = if matches.is_present("second") {
+                unimplemented!()
+            } else {
+                day3::execute_first::<12>(&input)
+            };
+
+            println!("Result: {}", result);
+        }
         _ => panic!("Unsupported day {}", day),
     };
 
@@ -60,3 +77,4 @@ fn main() -> Result<()> {
 
 pub mod day1;
 pub mod day2;
+pub mod day3;
