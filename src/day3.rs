@@ -59,52 +59,31 @@ pub fn execute_first<const T: usize>(input: &[&str]) -> u32 {
     gamma * epsilon
 }
 
+fn calculate_rating<'a, const T: usize, const LEFT: char, const RIGHT: char>(
+    mut input: Vec<&'a str>,
+) -> &'a str {
+    for index in 0..T {
+        let (zs, os) = count(&input, index);
+
+        input = input
+            .into_iter()
+            .filter(|str| str.chars().nth(index).unwrap() == if zs > os { LEFT } else { RIGHT })
+            .collect::<Vec<_>>();
+
+        if input.len() == 1 {
+            break;
+        }
+    }
+
+    input[0]
+}
+
 pub fn execute_second<const T: usize>(input: &[&str]) -> u32 {
-    let mut o2_rating = input.clone().to_vec();
-    let mut co2_rating = input.clone().to_vec();
+    let o2_rating_str = calculate_rating::<T, '0', '1'>(input.clone().to_vec());
+    let co2_rating_str = calculate_rating::<T, '1', '0'>(input.clone().to_vec());
 
-    for index in 0..T {
-        let o2_counts = count(&o2_rating, index);
-
-        if o2_counts.0 > o2_counts.1 {
-            o2_rating = o2_rating
-                .into_iter()
-                .filter(|str| str.chars().nth(index).unwrap() == '0')
-                .collect::<Vec<_>>();
-        } else {
-            o2_rating = o2_rating
-                .into_iter()
-                .filter(|str| str.chars().nth(index).unwrap() == '1')
-                .collect::<Vec<_>>();
-        }
-
-        if o2_rating.len() == 1 {
-            break;
-        }
-    }
-
-    for index in 0..T {
-        let co2_counts = count(&co2_rating, index);
-
-        if co2_counts.0 > co2_counts.1 {
-            co2_rating = co2_rating
-                .into_iter()
-                .filter(|str| str.chars().nth(index).unwrap() == '1')
-                .collect::<Vec<_>>();
-        } else {
-            co2_rating = co2_rating
-                .into_iter()
-                .filter(|str| str.chars().nth(index).unwrap() == '0')
-                .collect::<Vec<_>>()
-        }
-
-        if co2_rating.len() == 1 {
-            break;
-        }
-    }
-
-    let o2_rating = u32::from_str_radix(o2_rating[0], 2).unwrap();
-    let co2_rating = u32::from_str_radix(co2_rating[0], 2).unwrap();
+    let o2_rating = u32::from_str_radix(o2_rating_str, 2).unwrap();
+    let co2_rating = u32::from_str_radix(co2_rating_str, 2).unwrap();
 
     o2_rating * co2_rating
 }
